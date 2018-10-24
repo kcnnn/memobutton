@@ -90,19 +90,18 @@ a.outlink {
 var feed = function() {
   console.log("rendering feed")
   var query = {
-    v: 2,
-    e: { "out.b1": "hex" },
-    q: { find: { "out.b1": "6d02" } }
+    v: 3,
+    q: { find: { "out.h1": "6d02" } }
   };
   var b64 = btoa(JSON.stringify(query));
   var url = "https://bitdb.network/q/" + b64;
 
-  var header = { headers: { key: "qq0e889q7eh36cezkn0uv8y8364rls669cdsehqfut" } };
+  var header = { headers: { key: "qqjtyk2qmphm4d2ddqfeg855we2u4ly7m59a0tuenn" } };
 
   fetch(url, header).then(function(r) {
     return r.json()
   }).then(function(r) {
-    var unconfirmed_feed = r.unconfirmed.map(function(item) {
+    var unconfirmed_feed = r.u.map(function(item) {
       let output = item.out.filter(function(o) {
         return o.b0.op && o.b0.op === 106;
       })
@@ -111,7 +110,7 @@ var feed = function() {
         + "<a target='_blank' class='outlink' href='https://memo.cash/post/" + item.tx.h + "'>view on memo</a>"
         + " </div>";
     }).join("<br>")
-    var confirmed_feed = r.confirmed.map(function(item) {
+    var confirmed_feed = r.c.map(function(item) {
       let output = item.out.filter(function(o) {
         return o.b0.op && o.b0.op === 106;
       })
@@ -120,7 +119,7 @@ var feed = function() {
         + "<a target='_blank' class='outlink' href='https://memo.cash/post/" + item.tx.h + "'>view on memo</a>"
         + " </div>";
     }).join("<br>")
-    document.querySelector(".feed").innerHTML = "<hr><h2>" + r.unconfirmed.length + " Unconfirmed</h2><br>" + unconfirmed_feed + "<h2>" + r.confirmed.length + " Confirmed</h2><br>" + confirmed_feed;
+    document.querySelector(".feed").innerHTML = "<hr><h2>" + r.u.length + " Unconfirmed</h2><br>" + unconfirmed_feed + "<h2>" + r.c.length + " Confirmed</h2><br>" + confirmed_feed;
   })
 }
 
@@ -153,11 +152,13 @@ document.addEventListener("DOMContentLoaded", function() {
     <hr>
     <div class='center'>
       Powered by:
+      <a href='https://moneybutton.com'>Moneybutton</a> + 
+      <a href='https://memo.cash/protocol'>Memo.cash</a> + 
       <a href='https://bitdb.network'>BitDB</a>
     </div>
     <hr>
     <div class='form'>
-      <textarea id='msg' placeholder='Enter text to post'></textarea>
+      <textarea id='msg' placeholder='Enter text to post to memo.cash from moneybutton'></textarea>
       <a href='#' id='done' class='btn'>Done</a>
       <div id='submit' class='hidden'>
         <hr>
