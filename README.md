@@ -1,6 +1,6 @@
-# Memobutton
+# MemoPosting
 
-Post to memo.cash with [moneybutton](https://moneybutton.com)!
+[Live](https://kcnnn.github.io/memobutton/)
 
 Built with:
 
